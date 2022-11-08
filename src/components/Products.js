@@ -1,18 +1,18 @@
 import { render } from "@testing-library/react";
 import React,{useEffect, useState} from "react";
-import { AddToCartBtn } from "./AddToCartBtn";
+
 
 import './Products.css'
 
 export let cartState = [{
   title:'Tumblestone',
   price:33,
-  quentity:1,
+  quantity:1,
 },
 {
   title:'daaaa',
   price:5555,
-  quentity:1
+  quantity:1
 }]
 
 export function Products(){
@@ -32,7 +32,15 @@ useEffect(()=>{
               console.log(responseJson)
               for(let i = 0;i<responseJson.length;i++){
                 responseJson[i].status='Available'
+
+                cartState.forEach((item)=>{
+                  if(item.title==responseJson[i].title && item.status=="Added"){
+                    responseJson[i].status='Added'
+                  }
+                })
+  
               }
+              
               setCards(responseJson)                
           })
 }, [])
@@ -41,12 +49,29 @@ useEffect(()=>{
 
     
 function addToState(card){
-  let index = cards.indexOf(card)
   
-  let updateCards = cards[index].status='Added'
+  let index = cards.indexOf(card)
+  if(cards[index].status=='Available'){
+    cards[index].status='Added'
+
+    cartState.push({
+      status:cards[index].status,
+      title:cards[index].title,
+      price:parseInt(cards[index].normalPrice),
+      quantity:1
+    })
+
+  }
+
+  console.log(cartState)
   
 
-  setCards(updateCards)
+  setCards(prevCards=>prevCards.map(item=>
+    item.status == "Added"
+    ? {...item, status:'Added'}
+    : item
+  ))
+  
   
 }
 

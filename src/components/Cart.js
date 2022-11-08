@@ -1,19 +1,13 @@
 import React,{useEffect, useState} from "react";
-// import { AddBtn } from "./AddBtn";
+import {cartState} from './Products'
 
-// import './Cards.css'
+
+import './Products.css'
 
 export function Cart(){
-    const [cart,setCart]=useState([])
+    const [cart,setCart]=useState(cartState)
 
-    let url = 'https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15'
     
-        
-    useEffect(()=>{
-        fetch(url).then(response => response.json()).then(responseJson => {
-          setCart(responseJson)
-        },[])
-    })
     
     
 
@@ -24,17 +18,30 @@ export function Cart(){
                     <>
                        <div>
                        <div class="card__content">
-                  <h4>Game Name: ${cart.title}</h4>
+                  <h4>{cart.title}</h4>
+                  <div>
+                    <p>Price: {cart.price*cart.quantity}$</p>
+                  </div>
+                  <div>
+                    <p>Quantity: {cart.quantity}</p>
+                  </div>
                 </div>
                 <div class="card__info">
-                  <div>
-                    <p>Price: ${cart.price*cart.quantity}$</p>
-                  </div>
+                 
                  
                   <div>
-                    <p>Quantity: ${cart.quantity}</p>
+                    <button>+</button>
                   </div>
+
+                  <div>
+                  <button>-</button>
+                  </div>
+                  <div>
+                  <button>Delete</button>
+                  </div>
+
                   
+
                 </div>
 
               </div>
