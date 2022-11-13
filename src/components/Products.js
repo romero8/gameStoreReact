@@ -1,28 +1,18 @@
-import { render } from "@testing-library/react";
 import React,{useEffect, useState} from "react";
-
-
+import { updateCart } from "./Cart";
 import './Products.css'
 
-export let cartState = [{
-  title:'Tumblestone',
-  price:33,
-  quantity:1,
-},
-{
-  title:'daaaa',
-  price:5555,
-  quantity:1
-}]
+
+export let cartState = []
+
 
 export function Products(){
 
-  
+  cartState = updateCart
 
   const [cards,setCards]=useState([])
   
   
-
 useEffect(()=>{
   
 
@@ -34,7 +24,7 @@ useEffect(()=>{
                 responseJson[i].status='Available'
 
                 cartState.forEach((item)=>{
-                  if(item.title==responseJson[i].title && item.status=="Added"){
+                  if(item.title===responseJson[i].title && item.status==="Added"){
                     responseJson[i].status='Added'
                   }
                 })
@@ -51,7 +41,7 @@ useEffect(()=>{
 function addToState(card){
   
   let index = cards.indexOf(card)
-  if(cards[index].status=='Available'){
+  if(cards[index].status==='Available'){
     cards[index].status='Added'
 
     cartState.push({
@@ -67,7 +57,7 @@ function addToState(card){
   
 
   setCards(prevCards=>prevCards.map(item=>
-    item.status == "Added"
+    item.status === "Added"
     ? {...item, status:'Added'}
     : item
   ))
